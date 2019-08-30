@@ -1,28 +1,29 @@
-import numpy as np
 import sdl2
 import sdl2.ext
 
 
 class Window:
-    def __init__(self, size: (int, int)):
+    def __init__(self, size: (int, int), callback=None):
         sdl2.ext.init()
         self.size = size
         self.window = sdl2.ext.Window("Boids!", size)
         self.render = sdl2.ext.Renderer(self.window)
         self.window.show()
-        self.handler = EventHandler(self.window, self.render)
+        self.handler = EventHandler(self.window, self.render, callback)
 
 
 class EventHandler:
-    def __init__(self, window: sdl2.ext.Window, renderer: sdl2.ext.Renderer, cb):
+    def __init__(self, window: sdl2.ext.Window, renderer: sdl2.ext.Renderer, callback=None):
         self.running = False
         self.window = window
         self.renderer = renderer
-        self.render_cb
+        self.callback = callback
 
     def run(self):
         self.running = True
         while self.running:
+            if self.callback is not None:
+                self.callback(self)
             self.renderer.present()
             self.window.refresh()
             for i in sdl2.ext.get_events():
