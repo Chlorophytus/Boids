@@ -31,8 +31,7 @@ class BoidFactory:
 
         :return: The boids that are rendered.
         """
-
-        return np.ndarray.astype(self.boids[0:2] * self.size % self.size, np.int)
+        return np.ndarray.astype(self.boids[..., 0:2] * self.size % self.size, np.int)
 
     def render_boid_vectors(self):
         # FIXME
