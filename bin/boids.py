@@ -1,8 +1,8 @@
 #!/usr/bin/env python3.7
 from Boids import SDLHandling, NPHandling, Compute
 
-SIZE = (1600, 900)
-NUM_BOIDS = 256
+SIZE = (640, 480)
+NUM_BOIDS = 4096
 
 def main():
     boid_kernel = Compute.Runner("bin/boid.cl", NUM_BOIDS)
