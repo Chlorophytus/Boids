@@ -22,14 +22,14 @@ float4 move_forth(float4 a) {
   float4 aay = native_sin(a);
   // norm then scale
   float4 xy = fast_normalize((float4)(aax.x, aay.y, 0.0f, 0.0f));
-  return xy.xxyy / (float4)(128.0f);
+  return xy.xxyy;
 }
 
 float4 calc_delta_distance(float4 a) {
   return (float4)(native_rsqrt(fast_distance(a.xy, a.zw)));
 }
 
-kernel void boid_kernel(global float4 *bpos) {
+kernel void boid_kernel(global float4 *bpos, global float4 *bpos_result) {
   // okay, the bpos of each is
   // x = normal X pos 0-1
   // y = normal Y pos 0-1
@@ -40,7 +40,7 @@ kernel void boid_kernel(global float4 *bpos) {
   float4 bangle;
   float4 binfluence;
   float4 pivot_influence;
-  float4 back_off = (float4)(1.0f / 512.0f);
+  float4 back_off = (float4)(1.0f / 256.0f);
   
   for(int i = 0; i < NUM_BOIDS; i++) {
     if(this != i) {
@@ -52,5 +52,5 @@ kernel void boid_kernel(global float4 *bpos) {
       }
     }
   }
-  bpos[this] += move_forth(bangle);
+  bpos_result[this] = clamp(bpos[this] + (float4)(fast_normalize(move_forth(bangle)) / 4096.0f), -2.0f, 2.0f);
 }

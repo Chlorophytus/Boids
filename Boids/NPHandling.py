@@ -1,17 +1,19 @@
 import numpy as np
-import math
+from Boids import Compute
 
 
 class BoidFactory:
     """This class constructs boids in the specified area."""
 
-    def __init__(self, size: (int, int), num_boids: int):
+    def __init__(self, size: (int, int), num_boids: int, boid_kernel: Compute.Runner):
         """
         Configure the factory.
 
         :param size: How large the viewport should be.
         """
         self.boids = np.random.random_sample((num_boids, 4))
+        self.boids[..., 2:4] = 0.0
+        self.boid_kernel = boid_kernel
         self.size = size
         self.num_boids = num_boids
 
@@ -31,7 +33,8 @@ class BoidFactory:
 
         :return: The boids that are rendered.
         """
-        return np.ndarray.astype(self.boids[..., 0:2] * self.size % self.size, np.int)
+        boids2 = self.boid_kernel.run(self.boids)
+        return np.ndarray.astype(boids2[..., 0:2] * self.size % self.size, np.int)
 
     def render_boid_vectors(self):
         # FIXME

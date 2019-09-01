@@ -1,5 +1,8 @@
+README.md
 setup.py
-Boids/Boids.py
+Boids/Compute.py
+Boids/NPHandling.py
+Boids/SDLHandling.py
 Boids/__init__.py
 Boids.egg-info/PKG-INFO
 Boids.egg-info/SOURCES.txt

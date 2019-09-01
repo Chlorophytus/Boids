@@ -32,6 +32,7 @@ class EventHandler:
                 self.renderer.draw_point(np.reshape(self.point_cloud, self.point_cloud.size), sdl2.ext.Color())
             self.renderer.present()
             self.window.refresh()
+            sdl2.SDL_Delay(1000 // 120)
             for i in sdl2.ext.get_events():
                 if i.type == sdl2.SDL_QUIT:
                     sdl2.ext.quit()
